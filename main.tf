@@ -32,7 +32,7 @@ resource "random_pet" "sg" {}
 resource "aws_ebs_volume" "example" {
   availability_zone = "us-east-1a"
   size              = 12
-  encrypted         = true
+  encrypted         = false
 }
 
 data "aws_ami" "ubuntu" {
