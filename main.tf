@@ -29,6 +29,12 @@ provider "aws" {
 
 resource "random_pet" "sg" {}
 
+resource "aws_ebs_volume" "example" {
+  availability_zone = "us-east-1a"
+  size              = 12
+  encrypted         = true
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -80,3 +86,4 @@ resource "aws_security_group" "web-sg" {
 output "web-address" {
   value = "${aws_instance.web.public_dns}:8080"
 }
+
