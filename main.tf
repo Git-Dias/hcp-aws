@@ -27,12 +27,30 @@ provider "aws" {
   region = "us-east-1"
 }
 
+resource "aws_s3_bucket" "hcp_bucket" {
+  bucket = "myhcpbucket001"
+
+  tags = {
+    Name        = "HCP Bucket"
+    Environment = "Dev"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "hcp_bucket" {
+  bucket = aws_s3_bucket.hcp_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
 resource "random_pet" "sg" {}
 
 resource "aws_ebs_volume" "example" {
   availability_zone = "us-east-1a"
   size              = 12
-  encrypted         = true
+  encrypted         = false
 }
 
 data "aws_ami" "ubuntu" {
@@ -86,4 +104,3 @@ resource "aws_security_group" "web-sg" {
 output "web-address" {
   value = "${aws_instance.web.public_dns}:8080"
 }
-
