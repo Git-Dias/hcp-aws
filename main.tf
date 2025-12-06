@@ -64,7 +64,7 @@ module "ec2" {
 module "s3" {
   count  = var.enable_s3 ? 1 : 0
   source = "./modules/s3"
-  bucket_name_prefix = "lab-bucket-${random_id.bucket_id.hex}"
+  bucket_name_prefix = "lab-modular"
 }
 
 ############################
