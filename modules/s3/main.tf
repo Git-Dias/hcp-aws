@@ -23,6 +23,6 @@ resource "aws_s3_bucket_versioning" "this" {
   }
 }
 
-resource "versioning_configuration" "version" {
+resource "versioning_configuration" "this" {
   mfa_delete = var.mfa_delete_enabled ? "Enabled" : "Disabled"
 }
