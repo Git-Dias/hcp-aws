@@ -8,3 +8,9 @@ resource "aws_instance" "this" {
     Name = "lab-ec2-${count.index}"
   }
 }
+
+resource "aws_ebs_volume" "example" {
+  availability_zone = "us-east-1a"
+  size              = 8
+  encrypted         = false
+}
