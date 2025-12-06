@@ -22,7 +22,3 @@ resource "aws_s3_bucket_versioning" "this" {
     status = var.versioning_enabled ? "Enabled" : "Suspended"
   }
 }
-
-resource "versioning_configuration" "this" {
-  mfa_delete = var.mfa_delete_enabled ? "Enabled" : "Disabled"
-}
