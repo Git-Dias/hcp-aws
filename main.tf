@@ -24,83 +24,65 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 }
 
-resource "aws_s3_bucket" "hcp_bucket" {
-  bucket = "myhcpbucket001"
+############################
+# MÓDULO DE NETWORK (VPC)
+############################
 
-  tags = {
-    Name        = "HCP Bucket"
-    Environment = "Dev"
-  }
+module "network" {
+  count  = var.enable_network ? 1 : 0
+  source = "./modules/network"
+
+  vpc_cidr_block        = "10.0.0.0/16"
+  public_subnet_cidrs   = ["10.0.1.0/24"]
+  db_subnet_cidrs       = ["10.0.2.0/24"]
 }
 
-resource "aws_s3_bucket_public_access_block" "hcp_bucket" {
-  bucket = aws_s3_bucket.hcp_bucket.id
+############################
+# MÓDULO DE EC2
+############################
 
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+module "ec2" {
+  count  = var.enable_ec2 ? 1 : 0
+  source = "./modules/ec2"
+
+  # Depende da VPC e subnet pública criadas pelo módulo de network
+  # Importante: para EC2 funcionar, enable_network também deve estar true
+  vpc_id    = one(module.network[*].vpc_id)
+  subnet_id = one(module.network[*].public_subnet_ids)[0]
+
+  instance_type  = "t3.micro"
+  instance_count = 1
 }
 
-resource "random_pet" "sg" {}
+############################
+# MÓDULO DE S3
+############################
 
-resource "aws_ebs_volume" "example" {
-  availability_zone = "us-east-1a"
-  size              = 12
-  encrypted         = true
+module "s3" {
+  count  = var.enable_s3 ? 1 : 0
+  source = "./modules/s3"
+  bucket_name_prefix = "lab-modular"
 }
 
-data "aws_ami" "ubuntu" {
-  most_recent = true
+############################
+# MÓDULO DE RDS
+############################
 
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
+module "rds" {
+  count  = var.enable_rds ? 1 : 0
+  source = "./modules/rds"
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
+  # RDS normalmente fica em subnets privadas / de banco
+  vpc_id     = one(module.network[*].vpc_id)
+  subnet_ids = one(module.network[*].db_subnet_ids)
 
-  owners = ["099720109477"] # Canonical
-}
-
-resource "aws_instance" "web" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.web-sg.id]
-
-  user_data = <<-EOF
-              #!/bin/bash
-              apt-get update
-              apt-get install -y apache2
-              sed -i -e 's/80/8080/' /etc/apache2/ports.conf
-              echo "Hello World" > /var/www/html/index.html
-              systemctl restart apache2
-              EOF
-}
-
-resource "aws_security_group" "web-sg" {
-  name = "${random_pet.sg.id}-sg"
-  ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  // connectivity to ubuntu mirrors is required to run `apt-get update` and `apt-get install apache2`
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-output "web-address" {
-  value = "${aws_instance.web.public_dns}:8080"
+  engine            = "postgres"
+  engine_version    = "14.11"
+  instance_class    = "db.t3.micro"
+  allocated_storage = 20
+  username          = "adminuser"
+  password          = "TroqueEstaSenha123!"  # em produção, use variável sensível
 }
