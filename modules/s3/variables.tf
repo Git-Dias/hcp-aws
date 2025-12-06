@@ -8,3 +8,8 @@ variable "versioning_enabled" {
   description = "Habilita versionamento no bucket"
   default     = true
 }
+
+variable "mfa_delete_enabled" {
+  type = bool
+  default = false
+}
