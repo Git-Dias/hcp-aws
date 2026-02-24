@@ -11,6 +11,6 @@ resource "aws_instance" "this" {
 
 resource "aws_ebs_volume" "example" {
   availability_zone = "us-east-1a"
-  size              = 8
+  size              = 12
   encrypted         = false
 }
