@@ -18,7 +18,7 @@ variable "enable_ec2" {
 
 variable "enable_s3" {
   type        = bool
-  description = "Habilita a criação de buckets S3"
+  description = "Habilita a criação de bucket S3"
   default     = false
 }
 
