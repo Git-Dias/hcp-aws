@@ -1,15 +1,28 @@
 variable "bucket_name_prefix" {
-  type        = string
-  description = "Prefixo para o nome do bucket S3"
+  type = string
 }
 
-variable "versioning_enabled" {
-  type        = bool
-  description = "Habilita versionamento no bucket"
-  default     = true
+variable "block_public_acls" {
+  type    = bool
+  default = true
 }
 
-variable "mfa_delete_enabled" {
-  type = bool
-  default = false
+variable "block_public_policy" {
+  type    = bool
+  default = true
+}
+
+variable "ignore_public_acls" {
+  type    = bool
+  default = true
+}
+
+variable "restrict_public_buckets" {
+  type    = bool
+  default = true
+}
+
+variable "require_ssl" {
+  type    = bool
+  default = true
 }

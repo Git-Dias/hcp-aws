@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "enable_network" {
   type        = bool
   description = "Habilita a criação de VPC e subnets"
-  default     = true
+  default     = false
 }
 
 variable "enable_ec2" {
@@ -18,12 +18,12 @@ variable "enable_ec2" {
 
 variable "enable_s3" {
   type        = bool
-  description = "Habilita a criação de buckets S3"
-  default     = false
+  description = "Habilita a criação de bucket S3"
+  default     = true
 }
 
 variable "enable_rds" {
   type        = bool
   description = "Habilita a criação de instância RDS"
-  default     = true
+  default     = false
 }
