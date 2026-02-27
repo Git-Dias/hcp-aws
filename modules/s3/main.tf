@@ -48,6 +48,6 @@ data "aws_iam_policy_document" "ssl_policy" {
 
 resource "aws_s3_bucket_policy" "this" {
   count  = var.require_ssl ? 1 : 0
-  bucket = aws_s3_bucket.this.id
+  bucket = aws_s3_bucket.this.bucket
   policy = data.aws_iam_policy_document.ssl_policy[0].json
 }
