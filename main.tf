@@ -87,5 +87,5 @@ module "rds" {
   instance_class    = "db.t3.micro"
   allocated_storage = 20
   username          = "adminuser"
-  password          = "TroqueEstaSenha123!" # em produção, use variável sensível
+  password          = "TroqueEstaSenha1234!" # em produção, use variável sensível
 }
