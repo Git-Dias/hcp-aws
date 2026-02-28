@@ -17,7 +17,7 @@ variable "mfa_delete_enabled" {
 variable "enable_encryption" {
   type        = bool
   description = "Habilita criptografia no bucket"
-  default     = true
+  default     = false
 }
 
 variable "sse_algorithm" {
