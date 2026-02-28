@@ -13,17 +13,17 @@ variable "enable_network" {
 variable "enable_ec2" {
   type        = bool
   description = "Habilita a criação de instâncias EC2"
-  default     = false
+  default     = true
 }
 
 variable "enable_s3" {
   type        = bool
   description = "Habilita a criação de buckets S3"
-  default     = false
+  default     = true
 }
 
 variable "enable_rds" {
   type        = bool
   description = "Habilita a criação de instância RDS"
-  default     = true
+  default     = false
 }
