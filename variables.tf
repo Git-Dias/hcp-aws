@@ -27,3 +27,21 @@ variable "enable_rds" {
   description = "Habilita a criação de instância RDS"
   default     = false
 }
+
+variable "s3_enable_encryption" {
+  type        = bool
+  description = "Habilita criptografia no bucket S3"
+  default     = true
+}
+
+variable "s3_sse_algorithm" {
+  type        = string
+  description = "Algoritmo de criptografia do bucket S3 (AES256 ou aws:kms)"
+  default     = "aws:kms"
+}
+
+variable "s3_kms_key_id" {
+  type        = string
+  description = "ARN da KMS Key para criptografia do bucket S3"
+  default     = null
+}

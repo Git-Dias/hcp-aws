@@ -65,9 +65,9 @@ module "s3" {
   count              = var.enable_s3 ? 1 : 0
   source             = "./modules/s3"
   bucket_name_prefix = "lab-modular"
-  enable_encryption  = true
-  sse_algorithm      = "AES256"
-  kms_key_id         = "arn:aws:kms:us-east-1:123456789012:key/abc123"
+  enable_encryption  = var.s3_enable_encryption
+  sse_algorithm      = var.s3_sse_algorithm
+  kms_key_id         = var.s3_kms_key_id
 }
 
 ############################
