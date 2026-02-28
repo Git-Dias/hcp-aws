@@ -35,9 +35,9 @@ module "network" {
   count  = var.enable_network ? 1 : 0
   source = "./modules/network"
 
-  vpc_cidr_block        = "10.0.0.0/16"
-  public_subnet_cidrs   = ["10.0.1.0/24"]
-  db_subnet_cidrs       = ["10.0.2.0/24"]
+  vpc_cidr_block      = "10.0.0.0/16"
+  public_subnet_cidrs = ["10.0.1.0/24"]
+  db_subnet_cidrs     = ["10.0.2.0/24"]
 }
 
 ############################
@@ -62,9 +62,12 @@ module "ec2" {
 ############################
 
 module "s3" {
-  count  = var.enable_s3 ? 1 : 0
-  source = "./modules/s3"
+  count              = var.enable_s3 ? 1 : 0
+  source             = "./modules/s3"
   bucket_name_prefix = "lab-modular"
+  enable_encryption  = var.s3_enable_encryption
+  sse_algorithm      = var.s3_sse_algorithm
+  kms_key_id         = var.s3_kms_key_id
 }
 
 ############################
@@ -84,5 +87,5 @@ module "rds" {
   instance_class    = "db.t3.micro"
   allocated_storage = 20
   username          = "adminuser"
-  password          = "TroqueEstaSenha123!"  # em produção, use variável sensível
+  password          = "TroqueEstaSenha1234!" # em produção, use variável sensível
 }
