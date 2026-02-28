@@ -14,7 +14,7 @@ resource "aws_subnet" "public" {
 
   vpc_id                  = aws_vpc.this.id
   cidr_block              = each.value
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = var.public_subnet_auto_public_ip
 
   tags = {
     Name = "lab-public-${each.value}"

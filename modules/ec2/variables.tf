@@ -35,3 +35,9 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
+
+variable "enable_public_ip" {
+  description = "Define se a instância deve ter IP público"
+  type        = bool
+  default     = false
+}
