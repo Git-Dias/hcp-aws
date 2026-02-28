@@ -40,6 +40,7 @@ variable "s3_sse_algorithm" {
   default     = "aws:kms"
 }
 
+
 variable "s3_kms_key_id" {
   type        = string
   description = "ARN da KMS Key para criptografia do bucket S3"
