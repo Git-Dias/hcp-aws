@@ -31,7 +31,7 @@ variable "enable_rds" {
 variable "s3_enable_encryption" {
   type        = bool
   description = "Habilita criptografia no bucket S3"
-  default     = false
+  default     = true
 }
 
 variable "s3_sse_algorithm" {
