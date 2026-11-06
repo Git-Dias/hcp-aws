@@ -13,7 +13,7 @@ variable "enable_network" {
 variable "enable_ec2" {
   type        = bool
   description = "Habilita a criação de instâncias EC2"
-  default     = false
+  default     = true
 }
 
 variable "enable_s3" {

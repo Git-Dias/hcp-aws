@@ -8,8 +8,8 @@ resource "aws_instance" "this" {
   associate_public_ip_address = var.enable_public_ip
 
   metadata_options {
-    http_endpoint               = "enabled"   ## "disabled"
-    http_tokens                 = "required"  ## "no-preference" or "optional"
+    http_endpoint               = "disabled"   ## "disabled"
+    http_tokens                 = "optional"  ## "no-preference" or "optional"
     http_put_response_hop_limit = 1
   }
 
@@ -21,5 +21,5 @@ resource "aws_instance" "this" {
 resource "aws_ebs_volume" "example" {
   availability_zone = "us-east-1a"
   size              = 8
-  encrypted         = true ## false
+  encrypted         = false ## false
 }
