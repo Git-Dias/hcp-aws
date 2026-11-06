@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "enable_network" {
   type        = bool
   description = "Habilita a criação de VPC e subnets"
-  default     = false
+  default     = true
 }
 
 variable "enable_ec2" {
